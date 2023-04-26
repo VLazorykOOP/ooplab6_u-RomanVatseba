@@ -1,0 +1,73 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+// Абстрактний базовий клас Фігура
+class Shape {
+public:
+    virtual double perimeter() const = 0; // віртуальна функція обчислення периметру
+};
+
+// Похідний клас Прямокутник
+class Rectangle : public Shape {
+private:
+    double width;
+    double height;
+public:
+    Rectangle(double width, double height) : width(width), height(height) {}
+    double perimeter() const override {
+        return 2 * (width + height);
+    }
+};
+
+// Похідний клас Коло
+class Circle : public Shape {
+private:
+    double radius;
+public:
+    Circle(double radius) : radius(radius) {}
+    double perimeter() const override {
+        return 2 * M_PI * radius;
+    }
+};
+
+// Похідний клас Прямокутний Трикутник
+class RightTriangle : public Shape {
+private:
+    double a;
+    double b;
+    double c;
+public:
+    RightTriangle(double a, double b) : a(a), b(b) {
+        c = sqrt(a * a + b * b); // за теоремою Піфагора знаходимо гіпотенузу
+    }
+    double perimeter() const override {
+        return a + b + c;
+    }
+};
+
+// Похідний клас Трапеція
+class Trapezoid : public Shape {
+private:
+    double a;
+    double b;
+    double c;
+    double d;
+public:
+    Trapezoid(double a, double b, double c, double d) : a(a), b(b), c(c), d(d) {}
+    double perimeter() const override {
+        return a + b + c + d;
+    }
+};
+
+int main() {
+    Shape* shapes[] = { new Rectangle(3, 4), new Circle(5), new RightTriangle(3, 4), new Trapezoid(2, 3, 4, 5) };
+
+    for (auto shape : shapes) {
+        cout << "Perimeter of shape: " << shape->perimeter() << endl;
+        delete shape;
+    }
+
+    return 0;
+}
